@@ -32,4 +32,36 @@ public class CSV {
 
         return t;
     }
+
+    public static TableWithLabels readTableWithLabels(String path){
+        TableWithLabels t = new TableWithLabels();
+        try {
+            Scanner scanner = new Scanner(new File(path));
+            scanner.useDelimiter("\n");
+            String headers = scanner.next();
+            List<String> lista = Arrays.asList(headers.split(","));
+            int length = lista.size();
+            t.addAllHeader(lista);
+
+            while(scanner.hasNext()){
+                RowWithLabel r = new RowWithLabel();
+                String linea = scanner.next();
+                List<String> listaElemento = Arrays.asList(linea.split(","));
+
+                int i = 0;
+                while (i < length-1){
+                    r.add(Double.valueOf(listaElemento.get(i)));
+                    i++;
+                }
+                r.addLabel(listaElemento.get(i));
+                t.addRow(r);
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return t;
+    }
 }
