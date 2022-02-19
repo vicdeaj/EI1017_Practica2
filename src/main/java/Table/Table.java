@@ -30,6 +30,10 @@ public class Table {
 
     }
 
+    public List<String> getHeaders(){
+        return headers;
+    }
+
     public void addRow(Row row){
         rows.add(row);
     }
