@@ -1,10 +1,10 @@
-import java.util.ArrayList;
-import java.util.List;
+package Table;
 
-public class TableWithLabels extends Table{
+public class TableWithLabels extends Table {
     public TableWithLabels(){
         super();
     }
+
     @Override
     public RowWithLabel getRowAt(int index){
         return (RowWithLabel) rows.get(index);

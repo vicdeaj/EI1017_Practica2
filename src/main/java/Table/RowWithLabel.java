@@ -1,4 +1,6 @@
-public class RowWithLabel extends Row{
+package Table;
+
+public class RowWithLabel extends Row {
     String label;
     public RowWithLabel(){
         super();

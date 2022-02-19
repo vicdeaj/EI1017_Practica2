@@ -1,3 +1,5 @@
+package Table;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Row {
         return data.get(i);
     }
 
-    public List<Double> getData(){
+    public List<Double> getRow(){
         return data;
     }
 
