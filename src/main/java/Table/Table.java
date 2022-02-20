@@ -34,8 +34,18 @@ public class Table {
         return headers;
     }
 
+    public List<Row> getRows(){return rows;}
+
     public void addRow(Row row){
         rows.add(row);
+    }
+
+    public boolean equals(Table table){
+        if (!headers.equals(table.getHeaders()) || !rows.equals(table.getRows())){
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.print.attribute.standard.Finishings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ class RowTest {
         test.add(n1);
         test.add(n2);
 
-        assertEquals(true, test.getRow().equals(resList));
+        assertEquals(true, test.getData().equals(resList));
 
 
     }

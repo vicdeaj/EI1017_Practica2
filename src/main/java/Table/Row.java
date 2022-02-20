@@ -18,8 +18,18 @@ public class Row {
         return data.get(i);
     }
 
-    public List<Double> getRow(){
+    public List<Double> getData(){
         return data;
+    }
+
+    public boolean equals(Row row){
+
+        if (!data.equals(row.getData())){
+            return false;
+        }
+
+        return true;
+
     }
 
 }

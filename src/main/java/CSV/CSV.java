@@ -27,6 +27,7 @@ public class CSV {
             for (String element : data){
                 row.add(Double.parseDouble(element));
             }
+            table.addRow(row);
         }
 
         return table;
