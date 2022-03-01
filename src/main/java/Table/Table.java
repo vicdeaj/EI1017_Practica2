@@ -48,4 +48,8 @@ public class Table {
         return true;
     }
 
+    public int getSize(){
+        return rows.size();
+    }
+
 }
