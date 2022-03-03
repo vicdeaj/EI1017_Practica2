@@ -41,8 +41,14 @@ public class Table {
     }
 
     public boolean equals(Table table){
-        if (!headers.equals(table.getHeaders()) || !rows.equals(table.getRows())){
+        if (!headers.equals(table.getHeaders())){
             return false;
+        }
+
+        for (int i = 0; i < rows.size(); i++) {
+            if (!rows.get(i).equals(table.getRows().get(i))){
+                return false;
+            }
         }
 
         return true;
