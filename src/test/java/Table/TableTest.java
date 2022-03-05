@@ -16,9 +16,9 @@ class TableTest {
     private static Row testRow2;
     private static List<String> headers;
 
-    private static double n1 = 5.0;
-    private static double n2 = 3.3;
-    private static double n3 = 6.74;
+    private static final double n1 = 5.0;
+    private static final double n2 = 3.3;
+    private static final double n3 = 6.74;
 
     @BeforeAll
     static void initAll(){
@@ -38,6 +38,8 @@ class TableTest {
         testRow2.add(n2);
         testRow2.add(n1);
         testRow2.add(n3);
+
+        test.addAllHeaders(headers);
     }
 
     @BeforeEach
@@ -46,6 +48,7 @@ class TableTest {
         test.addRow(testRow1);
         test.addRow(testRow2);
     }
+
 
     @Test
     void getRowAt() {
@@ -77,7 +80,6 @@ class TableTest {
     @Test
     void addAllHeaders() {
 
-        test.addAllHeaders(headers);
         assertEquals(true, test.getHeaders().containsAll(headers));
 
     }
@@ -93,5 +95,23 @@ class TableTest {
         test.addRow(xtraRow);
 
         assertEquals(true, test.getRowAt(2).equals(xtraRow));
+    }
+
+    @Test
+    void equals(){
+        Table xtraTable =new Table();
+        xtraTable.addRow(testRow1);
+
+        assertEquals(false, test.equals(xtraTable));
+
+        xtraTable.addRow(testRow2);
+
+        assertEquals(true, test.equals(xtraTable));
+
+        xtraTable.addRow(testRow1);
+        xtraTable.addRow(testRow2);
+
+        assertEquals(false, test.equals(xtraTable));
+
     }
 }

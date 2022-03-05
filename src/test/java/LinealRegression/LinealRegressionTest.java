@@ -12,6 +12,8 @@ import Table.*;
 
 class LinealRegressionTest {
 
+    private static CSV csv;
+
     private static LinealRegression lr;
 
     private static Table testTable;
@@ -19,9 +21,11 @@ class LinealRegressionTest {
     @BeforeAll
     static void initAll() {
 
+        csv = new CSV();
+
         try{
             lr = new LinealRegression();
-            testTable = CSV.readTable("Files/miles_dollars.csv");
+            testTable = csv.readTable("Files/miles_dollars.csv");
 
         } catch(FileNotFoundException e){
             e.printStackTrace();

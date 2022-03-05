@@ -17,4 +17,8 @@ public class TableWithLabels extends Table {
         super.addRow(element);
     }
 
+    public boolean equals(TableWithLabels table){
+
+        return super.equals(table);
+    }
 }

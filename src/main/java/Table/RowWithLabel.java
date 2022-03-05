@@ -20,5 +20,6 @@ public class RowWithLabel extends Row {
         } else {
             return super.equals(row);
         }
+
     }
 }

@@ -41,7 +41,7 @@ public class Table {
     }
 
     public boolean equals(Table table){
-        if (!headers.equals(table.getHeaders())){
+        if (!this.sameHeaders(table.getHeaders()) || !this.sameSize(table.getSize())){
             return false;
         }
 
@@ -52,6 +52,16 @@ public class Table {
         }
 
         return true;
+    }
+
+    protected boolean sameHeaders(List<String> otherHeaders){
+
+        return headers.equals(otherHeaders);
+    }
+
+    protected boolean sameSize(int otherSize){
+
+        return this.getSize() == otherSize;
     }
 
     public int getSize(){

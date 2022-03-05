@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class KNNTest {
 
+    private static CSV csv;
+
     private static List<Double> sample1;
     private static String label1;
     private static KNN knn;
@@ -22,7 +24,9 @@ class KNNTest {
     @BeforeAll
     static void initAll() throws FileNotFoundException{
 
-        dataTable = CSV.readTableWithLabels("Files/iris.csv");
+        csv = new CSV();
+
+        dataTable = csv.readTableWithLabels("Files/iris.csv");
 
 
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CSV {
-    public static Table readTable(String path) throws FileNotFoundException{
+    public Table readTable(String path) throws FileNotFoundException{
         Table table = new Table();
         List<String> headers = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class CSV {
         return table;
     }
 
-    public static TableWithLabels readTableWithLabels(String path) throws FileNotFoundException{
+    public TableWithLabels readTableWithLabels(String path) throws FileNotFoundException{
 
         TableWithLabels table = new TableWithLabels();
         List<String> headers = new ArrayList<>();

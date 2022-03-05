@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CSVTest {
 
+    private static CSV csv;
+
     private static String pathNoLabel = "Files/tableNoLabel.csv";
     private static String pathLabel = "Files/tableLabels.csv";
 
@@ -28,8 +30,12 @@ class CSVTest {
     private static RowWithLabel rL1 = new RowWithLabel();
     private static RowWithLabel rL2 = new RowWithLabel();
 
+
     @BeforeAll
     static void initAll(){
+
+        csv = new CSV();
+
         headNL.add("Unidades");
         headNL.add("Precio");
 
@@ -66,7 +72,7 @@ class CSVTest {
     @Test
     void readTable() throws FileNotFoundException {
 
-        Table t = CSV.readTable(pathNoLabel);
+        Table t = csv.readTable(pathNoLabel);
         assertEquals(true, t.equals(tableNoLabel_Test));
     }
 
