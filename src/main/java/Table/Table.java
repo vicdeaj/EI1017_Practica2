@@ -40,7 +40,13 @@ public class Table {
         rows.add(row);
     }
 
-    public boolean equals(Table table){
+    public int getSize(){
+        return rows.size();
+    }
+
+    //Equals WIP, de momento no lo implementaremos hasta que retoquemos la clase
+
+    /*public boolean equals(Table table){
         if (!this.sameHeaders(table.getHeaders()) || !this.sameSize(table.getSize())){
             return false;
         }
@@ -64,8 +70,5 @@ public class Table {
         return this.getSize() == otherSize;
     }
 
-    public int getSize(){
-        return rows.size();
-    }
-
+    */
 }

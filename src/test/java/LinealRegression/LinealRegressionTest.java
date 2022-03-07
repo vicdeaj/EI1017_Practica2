@@ -25,7 +25,7 @@ class LinealRegressionTest {
 
         try{
             lr = new LinealRegression();
-            testTable = csv.readTable("Files/miles_dollars.csv");
+            testTable = csv.readTable("src/Files/miles_dollars.csv");
 
         } catch(FileNotFoundException e){
             e.printStackTrace();

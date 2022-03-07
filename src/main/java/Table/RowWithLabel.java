@@ -13,6 +13,9 @@ public class RowWithLabel extends Row {
         return label;
     }
 
+
+    //Equals WIP, de momento no lo implementaremos hasta que retoquemos la clase
+    /*
     public boolean equals(RowWithLabel row){
 
         if (!label.equals(row.getLabel())){
@@ -22,4 +25,6 @@ public class RowWithLabel extends Row {
         }
 
     }
+
+     */
 }

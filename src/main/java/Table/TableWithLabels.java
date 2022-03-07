@@ -16,9 +16,4 @@ public class TableWithLabels extends Table {
     public void addRow(RowWithLabel element){
         super.addRow(element);
     }
-
-    public boolean equals(TableWithLabels table){
-
-        return super.equals(table);
-    }
 }

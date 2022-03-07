@@ -39,7 +39,6 @@ class TableTest {
         testRow2.add(n1);
         testRow2.add(n3);
 
-        test.addAllHeaders(headers);
     }
 
     @BeforeEach
@@ -47,6 +46,7 @@ class TableTest {
         test = new Table();
         test.addRow(testRow1);
         test.addRow(testRow2);
+        test.addAllHeaders(headers);
     }
 
 
@@ -80,7 +80,7 @@ class TableTest {
     @Test
     void addAllHeaders() {
 
-        assertEquals(true, test.getHeaders().containsAll(headers));
+        assertEquals(true, test.getHeaders().equals(headers));
 
     }
 
@@ -97,6 +97,7 @@ class TableTest {
         assertEquals(true, test.getRowAt(2).equals(xtraRow));
     }
 
+    /*
     @Test
     void equals(){
         Table xtraTable =new Table();
@@ -114,4 +115,7 @@ class TableTest {
         assertEquals(false, test.equals(xtraTable));
 
     }
+
+
+     */
 }

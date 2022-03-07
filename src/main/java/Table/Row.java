@@ -22,7 +22,10 @@ public class Row {
         return data;
     }
 
-    public boolean equals(Row row){
+
+
+//Equals WIP, de momento no lo implementaremos hasta que retoquemos la clase
+    /*public boolean equals(Row row){
 
         if (!data.equals(row.getData())){
             return false;
@@ -31,6 +34,6 @@ public class Row {
         return true;
 
     }
-
+    */
 }
 

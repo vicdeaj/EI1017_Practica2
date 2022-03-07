@@ -15,8 +15,8 @@ class CSVTest {
 
     private static CSV csv;
 
-    private static String pathNoLabel = "Files/tableNoLabel.csv";
-    private static String pathLabel = "Files/tableLabels.csv";
+    private static String pathNoLabel = "src/Files/tableNoLabel.csv";
+    private static String pathLabel = "src/Files/tableLabels.csv";
 
     private static Table tableNoLabel_Test = new Table();
     private static TableWithLabels tableLabel_Test = new TableWithLabels();
@@ -73,10 +73,37 @@ class CSVTest {
     void readTable() throws FileNotFoundException {
 
         Table t = csv.readTable(pathNoLabel);
-        assertEquals(true, t.equals(tableNoLabel_Test));
+
+
+        assertEquals(true,  tableNoLabel_Test.getHeaders().equals(t.getHeaders()));
+        assertEquals(true, tableNoLabel_Test.getSize() == t.getSize());
+
+        for (int i = 0; i < tableNoLabel_Test.getSize(); i++ ){
+
+            Row tRow = t.getRowAt(i);
+            Row testRow = tableNoLabel_Test.getRowAt(i);
+
+            assertEquals(true, tRow.getData().equals(testRow.getData()));
+        }
     }
 
     @Test
-    void readTableWithLabels() {
+    void readTableWithLabels() throws FileNotFoundException {
+
+        TableWithLabels t = csv.readTableWithLabels(pathLabel);
+
+        assertEquals(true,  tableLabel_Test.getHeaders().equals(t.getHeaders()));
+        assertEquals(true, tableLabel_Test.getSize() == t.getSize());
+
+        for (int i = 0; i < tableLabel_Test.getSize(); i++ ){
+
+            RowWithLabel tRow = t.getRowAt(i);
+            RowWithLabel testRow = t.getRowAt(i);
+
+            assertEquals(true, tRow.getLabel().equals(testRow.getLabel()));
+            assertEquals(true, tRow.getData().equals(testRow.getData()));
+        }
+
+
     }
 }
