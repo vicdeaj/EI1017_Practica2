@@ -1,11 +1,11 @@
 package LinealRegression;
 
 import Table.*;
-
+import Interfaces.Algorithm;
 import java.util.Iterator;
 import java.util.List;
 
-public class LinealRegression {
+public class LinealRegression implements Algorithm<Table, Double, Double>{
 
     private Double alfa;
     private Double beta;
@@ -68,6 +68,7 @@ public class LinealRegression {
 
 
     }
+
 
     public Double estimate(Double sample){
         return alfa*sample + beta;

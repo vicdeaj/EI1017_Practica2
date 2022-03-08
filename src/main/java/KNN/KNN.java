@@ -2,13 +2,14 @@ package KNN;
 
 import java.lang.Math;
 
-import Table.Row;
+
+import Interfaces.Algorithm;
 import Table.RowWithLabel;
 import Table.TableWithLabels;
 
 import java.util.List;
 
-public class KNN {
+public class KNN implements Algorithm<TableWithLabels, List<Double>, String>{
 
     private TableWithLabels data;
 
