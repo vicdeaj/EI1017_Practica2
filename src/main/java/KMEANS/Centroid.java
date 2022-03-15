@@ -18,6 +18,9 @@ public class Centroid {
     public List<Double> getData() {
         return data;
     }
+    public int getSize(){
+        return data.size();
+    }
 
     public void setData(List<Double> newData) {
         data = new ArrayList<>(newData);
