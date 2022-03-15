@@ -1,4 +1,4 @@
-package KNN;
+package KMEANS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Centroid {
         return data;
     }
 
-    public void setData(List<Double> data) {
-        this.data = data;
+    public void setData(List<Double> newData) {
+        data = new ArrayList<>(newData);
     }
 }

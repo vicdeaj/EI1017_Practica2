@@ -1,5 +1,4 @@
 package KMEANS;
-import KNN.Centroid;
 import Table.Table;
 import Table.Row;
 import Interfaces.Algorithm;
@@ -26,6 +25,12 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
     public void train(Table data) {
         centroids = createRandomCentroids(data);
 
+        for (int i = 0; i < iterations; i++) {
+            List<Table> groups = new ArrayList<>(numberClusters);
+
+            classify(groups, data); //Fills up the groups with their corresponding rows according to its centroid
+            recalcularCentroides(groups);
+        }
 
     }
 
