@@ -4,11 +4,12 @@ import Table.Row;
 import Interfaces.Algorithm;
 
 import java.util.*;
+import Operations.Operations;
 
 public class KMEANS implements Algorithm<Table, List<Double>, String>{
 
     private int numberClusters;
-    private List<Centroid> centroids;
+    private List<List<Double>> centroids;
     private int iterations;
     private long seed;
 
@@ -26,105 +27,75 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
         centroids = createRandomCentroids(data);
 
         for (int i = 0; i < iterations; i++) {
-            List<Table> groups = new ArrayList<>(numberClusters);
+            List<Table> clusters = new ArrayList<>();
+            for (int j = 0; j < numberClusters; j++) {
+                Table c = new Table();
+                clusters.add(c);
+            }
 
-            classify(groups, data); //Fills up the groups with their corresponding rows according to its centroid
-            recalcularCentroides(groups);
+            classify(clusters, data); //Fills up the clusters with their corresponding rows according to its centroid
+            recalcularCentroides(clusters);
         }
 
     }
-    private Double euclideanMetric(List<Double> data, Centroid centroide){
-        Double sumatorio = 0.0;
-        for (int i = 0; i < centroide.getSize();i++){
-            sumatorio += Math.pow(centroide.getData().get(i) - data.get(i), 2);
-        }
-        return Math.sqrt(sumatorio);
-    }
-
 
     @Override
     public String estimate(List<Double> sample) {
 
-        int nCent = minDistance(sample);
+        int nCent = Operations.closestCenterIndex(sample, centroids);
         return String.format("Cluster %d",nCent);
     }
 
 
-    private int minDistance(List<Double> data){
-        double minDistance = Double.MAX_VALUE;
-        int iMin = 0;
-
-        //Check where will a certain row be placed according to the Euclidean distance relative to each centroid
-        for (int i = 0; i < centroids.size(); i++){
-
-            double distance = euclideanMetric(data, centroids.get(i));
-            if (distance < minDistance){
-                minDistance = distance;
-                iMin = i;
-            }
-        }
-        return iMin;
-    }
-
-    private void classify(List<Table> groups, Table data){ //Fills up the groups with their corresponding rows according to its centroid
+    protected void classify(List<Table> cluster, Table data){ //Fills up the clusters with their corresponding rows according to its centroid
         for (Row row : data.getRows()){
-            int i = minDistance(row.getData());
-            groups.get(i).addRow(row); //Adds to its corresponding group
+            int i = Operations.closestCenterIndex(row.getData(), centroids);
+            cluster.get(i).addRow(row); //Adds to its corresponding cluster
         }
 
     }
 
-    private void recalcularCentroides(List<Table> groups){
-        int numberOfCoordenates = centroids.get(0).getSize();
+    protected void recalcularCentroides(List<Table> groups){
+        int numberOfCoordenates = centroids.get(0).size();
 
         // para cada grupo calculamos un centroide
         for (int grupo = 0; grupo < groups.size(); grupo++) {
-            List<Double> newCoordenates = new ArrayList<>(numberOfCoordenates);
+            List<Double> newCoordenates = new ArrayList<>();
             // para cada coordenada sumamos los valores para cada campo
             for (int i = 0; i < numberOfCoordenates; i++) {
-                newCoordenates.set(i,sum(groups.get(grupo).getColumnAt(i)));
+                newCoordenates.add(Operations.sum(groups.get(grupo).getColumnAt(i))); //Añade una coordenada
             }
 
             //dividimos por el número de elementos que hay en la tabla
             for (int i = 0; i < numberOfCoordenates; i++) {
                 newCoordenates.set(i,newCoordenates.get(i)/groups.get(grupo).getSize());
             }
-            centroids.get(grupo).setData(newCoordenates);
+
+            for (int i = 0; i < numberOfCoordenates; i++) {
+                centroids.get(grupo).set(i, newCoordenates.get(i));
+            }
 
         }
 
     }
 
-    private double sum(List<Double> list) {
-        double sum = 0;
-
-        for (double i : list)
-            sum = sum + i;
-
-        return sum;
-    }
-
-
-    private List<Centroid> createRandomCentroids(Table table){//Creates the first numberClusters centroids randomly
+    protected List<List<Double>> createRandomCentroids(Table table){//Creates the first numberClusters centroids randomly (Launch exception if numberClusters > Table.size)
         Set<Integer> indexes = new HashSet();
-        List<Centroid> ret = new LinkedList<>();
+        List<List<Double>> ret = new LinkedList<>();
         int tableSize = table.getSize();
 
-        for (int i = 0; i < numberClusters; i++) {
-            int index = getRandomIndex(tableSize);
-            while (indexes.contains(index)) {
-                index = getRandomIndex(tableSize);
+        for (int i = 0; i < numberClusters; i++) { //For each cluster
+
+            Random random = new Random(seed);
+            int index = Math.abs(random.nextInt() % tableSize); //Designate a starting index
+            while (indexes.contains(index)) {//If that index is on a set of indexes that have already been asigned to a centroid keep looking for an index
+                index = Math.abs(random.nextInt() % tableSize);
             }
             indexes.add(index);
 
-            Centroid centroid =  new Centroid(table.getRowAt(index).getData());
+            List<Double> centroid =  new ArrayList<>(table.getRowAt(index).getData());
             ret.add(centroid);
         }
         return ret;
-    }
-
-    private int getRandomIndex(int tableSize){ //Obtains a random number to be used as an index
-        Random random = new Random(seed);
-        return random.nextInt() % tableSize;
     }
 }
