@@ -20,6 +20,9 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
         this.seed = seed;
         centroids = new ArrayList<>();
     }
+    public List<List<Double>> getCentroids(){
+        return centroids;
+    }
 
 
     @Override
