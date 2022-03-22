@@ -66,21 +66,18 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
     protected void recalcularCentroides(List<Table> groups){
         int numberOfCoordenates = centroids.get(0).size();
 
-        // para cada grupo calculamos un centroide
-        for (int grupo = 0; grupo < groups.size(); grupo++) {
+        // we calculate a centroid for each group
+        for (int groupIndex = 0; groupIndex < groups.size(); groupIndex++) {
             List<Double> newCoordenates = new ArrayList<>();
-            // para cada coordenada sumamos los valores para cada campo
-            for (int i = 0; i < numberOfCoordenates; i++) {
-                newCoordenates.add(Operations.sum(groups.get(grupo).getColumnAt(i))); //Añade una coordenada
-            }
 
-            //dividimos por el número de elementos que hay en la tabla
-            for (int i = 0; i < numberOfCoordenates; i++) {
-                newCoordenates.set(i,newCoordenates.get(i)/groups.get(grupo).getSize());
-            }
+            Table group = groups.get(groupIndex);
+            int groupSize = group.getSize();
 
+            //We proceed on calculating the mean for each coordenate and then updating the centroid, on ecoordenate at a time
             for (int i = 0; i < numberOfCoordenates; i++) {
-                centroids.get(grupo).set(i, newCoordenates.get(i));
+                newCoordenates.add(Operations.sum(group.getColumnAt(i))); //Sum of coordenates added to its corresponding position
+                newCoordenates.set(i,newCoordenates.get(i)/groupSize);//Division to calculate the mean
+                centroids.get(groupIndex).set(i, newCoordenates.get(i));
             }
 
         }
