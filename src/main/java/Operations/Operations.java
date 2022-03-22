@@ -32,6 +32,11 @@ public class Operations {
     }
 
     public static double euclideanDistance(List<Double> data, List<Double> centroid){ //Calculates the euclidean distance between 2 of the same size
+
+        if(data.size() != centroid.size() || centroid.isEmpty()){
+            throw new IllegalStateException();
+        }
+
         Double sumatorio = 0.0;
         for (int i = 0; i < centroid.size();i++){
             sumatorio += Math.pow(centroid.get(i) - data.get(i), 2);

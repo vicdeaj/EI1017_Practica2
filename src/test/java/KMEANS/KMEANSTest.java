@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class KMEANSTest {
     private static Table dataTable;
     private static KMEANS kmeans;
+    private static KMEANS failure;
     private static List<List<Double>> centroids;
 
     private static List<Double> c1;
@@ -33,6 +34,8 @@ class KMEANSTest {
         c1 = Arrays.asList(5.1,3.5,1.4,0.2);
         c2 = Arrays.asList(4.7,3.2,1.3,0.2);
         c3 = Arrays.asList(7.0,3.2,4.7,1.4);
+
+        failure = new KMEANS(1000, 10, 1);
     }
 
     @BeforeEach
@@ -53,6 +56,9 @@ class KMEANSTest {
 
     @Test
     void estimate() {
+
+        assertThrows(IllegalStateException.class, () -> failure.train(dataTable));
+
         kmeans.train(dataTable);
         assertEquals("Cluster 0",kmeans.estimate(c1));
         assertEquals("Cluster 1", kmeans.estimate(c2));

@@ -3,6 +3,7 @@ package Operations;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ class OperationsTest {
     }
 
     @Test
-    void closestCenterIndex() {
+    void closestCenterIndex(){
 
         List<Double> point = new ArrayList<>();
         point.add(1.00);
@@ -47,7 +48,9 @@ class OperationsTest {
         point.add(1.00);
         point.add(1.00);
 
+
         List<List<Double>> centroids = new ArrayList<>();
+
         centroids.add(nums);
         centroids.add(nums2);
 
@@ -57,6 +60,9 @@ class OperationsTest {
     @Test
     void euclideanDistance() {
 
+        List<Double> empty = new ArrayList<>();
+
+        assertThrows(IllegalStateException.class, () -> Operations.euclideanDistance(empty, nums));
         assertEquals(8.00, Operations.euclideanDistance(nums, nums2));
     }
 }

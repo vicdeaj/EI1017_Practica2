@@ -27,6 +27,11 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
 
     @Override
     public void train(Table data) {
+
+        if (numberClusters > data.getSize()){
+            throw new IllegalStateException();
+        }
+
         centroids = createRandomCentroids(data);
 
         for (int i = 0; i < iterations; i++) {
