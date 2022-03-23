@@ -68,7 +68,7 @@ class CSVTest {
 
     }
 
-    //WIP
+    //WIP -> Ignore these tests for now. The validation of the CSV class is reflected in the Table and TableWithLabels test
     @Test
     void readTable() throws FileNotFoundException {
 

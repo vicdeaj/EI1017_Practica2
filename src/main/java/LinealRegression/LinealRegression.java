@@ -4,6 +4,7 @@ import Table.*;
 import Interfaces.Algorithm;
 import java.util.Iterator;
 import java.util.List;
+import Operations.*;
 
 public class LinealRegression implements Algorithm<Table, Double, Double>{
 
@@ -55,17 +56,14 @@ public class LinealRegression implements Algorithm<Table, Double, Double>{
 
     public void train(Table table){
 
-
         List<Double> colX = table.getColumnAt(0);
         List<Double> colY = table.getColumnAt(1);
 
-        Double meanX = mean(colX);
-        Double meanY = mean(colY);
+        Double meanX = Operations.mean(colX);
+        Double meanY = Operations.mean(colY);
 
         alfa = createAlfa(meanX, meanY, colX, colY);
         beta = createBeta(meanX, meanY, alfa);
-
-
 
     }
 

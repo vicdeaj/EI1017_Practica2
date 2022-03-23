@@ -8,6 +8,7 @@ import Table.RowWithLabel;
 import Table.TableWithLabels;
 
 import java.util.List;
+import Operations.*;
 
 public class KNN implements Algorithm<TableWithLabels, List<Double>, String>{
 
@@ -23,16 +24,16 @@ public class KNN implements Algorithm<TableWithLabels, List<Double>, String>{
 
     public String estimate(List<Double> sample){
         String labelMin="";
-        double euclideanMin = Double.MAX_VALUE;
+        double minDistance = Double.MAX_VALUE;
 
         for(int i = 0; i < data.getSize(); i++){
 
             RowWithLabel row = data.getRowAt(i);
-            double metric = euclideanMetric(row, sample);
+            double distance = Operations.euclideanDistance(row.getData(), sample);
 
-            if (metric < euclideanMin){
+            if (distance < minDistance){
 
-                euclideanMin = metric;
+                minDistance = distance;
                 labelMin = row.getLabel();
 
             }
@@ -40,13 +41,4 @@ public class KNN implements Algorithm<TableWithLabels, List<Double>, String>{
 
         return labelMin;
     }
-
-    private Double euclideanMetric(RowWithLabel row, List<Double> sample){
-        Double sumatorio = 0.0;
-        for (int i = 0; i < sample.size();i++){
-            sumatorio += Math.pow(sample.get(i) - row.getElement(i), 2);
-        }
-        return Math.sqrt(sumatorio);
-    }
-
 }

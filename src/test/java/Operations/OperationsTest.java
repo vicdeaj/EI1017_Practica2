@@ -65,4 +65,11 @@ class OperationsTest {
         assertThrows(IllegalStateException.class, () -> Operations.euclideanDistance(empty, nums));
         assertEquals(8.00, Operations.euclideanDistance(nums, nums2));
     }
+
+    @Test
+    void mean(){
+
+        assertEquals(2.5, Operations.mean(nums));
+        assertEquals(6.5, Operations.mean(nums2));
+    }
 }

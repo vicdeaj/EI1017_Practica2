@@ -1,7 +1,6 @@
 package Operations;
 
 import java.util.List;
-import java.util.Random;
 
 public class Operations {
 
@@ -31,16 +30,22 @@ public class Operations {
         return iMin;
     }
 
-    public static double euclideanDistance(List<Double> data, List<Double> centroid){ //Calculates the euclidean distance between 2 of the same size
+    public static double euclideanDistance(List<Double> pointA, List<Double> pointB){ //Calculates the euclidean distance between 2 of the same size
 
-        if(data.size() != centroid.size() || centroid.isEmpty()){
+        if(pointA.size() != pointB.size() || pointB.isEmpty()){ //Should they be of equal size it is only necessary to check 1 element to see if they are empty lists
             throw new IllegalStateException();
         }
 
-        Double sumatorio = 0.0;
-        for (int i = 0; i < centroid.size();i++){
-            sumatorio += Math.pow(centroid.get(i) - data.get(i), 2);
+        double sumatorio = 0.0;
+        for (int i = 0; i < pointB.size();i++){
+            sumatorio += Math.pow(pointB.get(i) - pointA.get(i), 2);
         }
         return Math.sqrt(sumatorio);
+    }
+
+    public static double mean(List<Double> numList){//Calculates the mean of the elements in a list
+
+        return Operations.sum(numList)/numList.size();
+
     }
 }

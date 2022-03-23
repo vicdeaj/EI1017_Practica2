@@ -42,7 +42,7 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
             }
 
             classify(clusters, data); //Fills up the clusters with their corresponding rows according to its centroid
-            recalcularCentroides(clusters);
+            recalculateCentroids(clusters);//Recalculates the centroids on each group
         }
 
     }
@@ -63,21 +63,21 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
 
     }
 
-    protected void recalcularCentroides(List<Table> groups){
+    protected void recalculateCentroids(List<Table> groups){
         int numberOfCoordenates = centroids.get(0).size();
 
         // we calculate a centroid for each group
         for (int groupIndex = 0; groupIndex < groups.size(); groupIndex++) {
-            List<Double> newCoordenates = new ArrayList<>();
+            List<Double> newCoordenate = new ArrayList<>();
 
             Table group = groups.get(groupIndex);
-            int groupSize = group.getSize();
+            List<Double> centroid = centroids.get(groupIndex);
 
             //We proceed on calculating the mean for each coordenate and then updating the centroid, on ecoordenate at a time
             for (int i = 0; i < numberOfCoordenates; i++) {
-                newCoordenates.add(Operations.sum(group.getColumnAt(i))); //Sum of coordenates added to its corresponding position
-                newCoordenates.set(i,newCoordenates.get(i)/groupSize);//Division to calculate the mean
-                centroids.get(groupIndex).set(i, newCoordenates.get(i));
+
+                newCoordenate.add(Operations.mean(group.getColumnAt(i)));//This needs to be re-looked. Works for now.
+                centroid.set(i, newCoordenate.get(i));
             }
 
         }

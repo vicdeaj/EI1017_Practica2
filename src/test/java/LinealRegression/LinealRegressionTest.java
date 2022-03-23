@@ -1,4 +1,4 @@
-package KMEANS.LinealRegression;
+package LinealRegression;
 
 import CSV.CSV;
 import LinealRegression.LinealRegression;
