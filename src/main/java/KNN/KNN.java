@@ -1,7 +1,5 @@
 package KNN;
 
-import java.lang.Math;
-
 
 import Interfaces.Algorithm;
 import Interfaces.Distance;
@@ -12,12 +10,15 @@ import Table.TableWithLabels;
 import java.util.List;
 import Operations.*;
 
-public class KNN implements Algorithm<TableWithLabels, List<Double>, String>{
+public class KNN implements Algorithm<TableWithLabels, List<Double>, String>, DistanceClient {
 
     private TableWithLabels data;
+    private Distance distanceType;
 
-    public KNN(){
+    public KNN(Distance type){
         data = new TableWithLabels();
+        distanceType = type;
+
     }
 
     public void train(TableWithLabels table){
@@ -31,7 +32,7 @@ public class KNN implements Algorithm<TableWithLabels, List<Double>, String>{
         for(int i = 0; i < data.getSize(); i++){
 
             RowWithLabel row = data.getRowAt(i);
-            double distance = Operations.euclideanDistance(row.getData(), sample);
+            double distance = distanceType.calculateDistance(row.getData(), sample);
 
             if (distance < minDistance){
 
@@ -42,5 +43,9 @@ public class KNN implements Algorithm<TableWithLabels, List<Double>, String>{
         }
 
         return labelMin;
+    }
+
+    public void setDistance(Distance distance){
+        this.distanceType = distance;
     }
 }

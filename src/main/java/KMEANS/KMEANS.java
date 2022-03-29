@@ -1,24 +1,28 @@
 package KMEANS;
+import Interfaces.Distance;
+import Interfaces.DistanceClient;
 import Table.Table;
 import Table.Row;
 import Interfaces.Algorithm;
 
 import java.util.*;
-import Operations.Operations;
+import Operations.*;
 
-public class KMEANS implements Algorithm<Table, List<Double>, String>{
+public class KMEANS implements Algorithm<Table, List<Double>, String>, DistanceClient {
 
     private int numberClusters;
     private List<List<Double>> centroids;
     private int iterations;
     private long seed;
+    private Distance distanceType;
 
-    public KMEANS(int numberClusters, int iterations, long seed){
+    public KMEANS(int numberClusters, int iterations, long seed, Distance type){
 
         this.numberClusters = numberClusters;
         this.iterations =  iterations;
         this.seed = seed;
         centroids = new ArrayList<>();
+        distanceType = type;
     }
     public List<List<Double>> getCentroids(){
         return centroids;
@@ -102,5 +106,26 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
             ret.add(centroid);
         }
         return ret;
+    }
+
+    protected int closestCenterIndex(List<Double> data, List<List<Double>> centroidList){ //Calculates which is the closest centroid among a centroid list relative to a designated point and returns its index from within said list
+        double minDistance = Double.MAX_VALUE;
+        int iMin = 0;
+
+
+        //Check where will a certain row be placed according to the distance relative to each centroid
+        for (int i = 0; i < centroidList.size(); i++){
+
+            double distance = distanceType.calculateDistance(data, centroidList.get(i));
+            if (distance < minDistance){
+                minDistance = distance;
+                iMin = i;
+            }
+        }
+        return iMin;
+    }
+
+    public void setDistance(Distance distance){
+        distanceType = distance;
     }
 }

@@ -101,6 +101,14 @@ class KMEANSTest {
         assertEquals("Cluster 1", kmeans.estimate(c2));
         assertEquals("Cluster 2", kmeans.estimate(c3));
 
+        kmeans.setDistance(new ManhattanDistance());
+
+        kmeans.train(dataTable);
+
+        assertNotEquals("Cluster0",kmeans.estimate(c1));
+        assertNotEquals("Cluster1",kmeans.estimate(c2));
+        assertNotEquals("Cluster2",kmeans.estimate(c3));
+
     }
 
 

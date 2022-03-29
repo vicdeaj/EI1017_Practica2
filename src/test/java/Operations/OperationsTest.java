@@ -39,24 +39,7 @@ class OperationsTest {
         assertEquals(26.00, Operations.sum(nums2));
     }
 
-    @Test
-    void closestCenterIndex(){
-
-        List<Double> point = new ArrayList<>();
-        point.add(1.00);
-        point.add(1.00);
-        point.add(1.00);
-        point.add(1.00);
-
-
-        List<List<Double>> centroids = new ArrayList<>();
-
-        centroids.add(nums);
-        centroids.add(nums2);
-
-        assertEquals(0, Operations.closestCenterIndex(point, centroids));
-    }
-
+/*
     @Test
     void euclideanDistance() {
 
@@ -65,7 +48,7 @@ class OperationsTest {
         assertThrows(IllegalStateException.class, () -> Operations.euclideanDistance(empty, nums));
         assertEquals(8.00, Operations.euclideanDistance(nums, nums2));
     }
-
+*/
     @Test
     void mean(){
 
