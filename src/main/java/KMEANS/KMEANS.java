@@ -50,14 +50,14 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>{
     @Override
     public String estimate(List<Double> sample) {
 
-        int nCent = Operations.closestCenterIndex(sample, centroids);
+        int nCent = closestCenterIndex(sample, centroids);
         return String.format("Cluster %d",nCent);
     }
 
 
     protected void classify(List<Table> cluster, Table data){ //Fills up the clusters with their corresponding rows according to its centroid
         for (Row row : data.getRows()){
-            int i = Operations.closestCenterIndex(row.getData(), centroids);
+            int i = closestCenterIndex(row.getData(), centroids);
             cluster.get(i).addRow(row); //Adds to its corresponding cluster
         }
 

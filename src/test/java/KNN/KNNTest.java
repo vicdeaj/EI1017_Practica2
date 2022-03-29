@@ -1,6 +1,8 @@
 package KNN;
 
 import CSV.CSV;
+import Operations.EuclideanDistance;
+import Operations.ManhattanDistance;
 import Table.TableWithLabels;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -35,8 +37,7 @@ class KNNTest {
 
         dataTable = csv.readTableWithLabels("src/Files/iris.csv");
 
-        knn = new KNN();
-        knn.train(dataTable);
+
 
         sample1 = Arrays.asList(4.7,3.2,1.3,0.2);
         sample2 = Arrays.asList(5.0, 2.3, 3.3, 1.0);
@@ -53,11 +54,12 @@ class KNNTest {
     @Test
     @DisplayName("knn.estimate Test")
     void estimate() {
+        knn = new KNN(new EuclideanDistance());
+        knn.train(dataTable);
 
         assertEquals(label1, knn.estimate(sample1));
         assertEquals(label2, knn.estimate(sample2));
         assertEquals(label3, knn.estimate(sample3));
-
 
     }
 }

@@ -1,6 +1,7 @@
 package KMEANS;
 
 import CSV.CSV;
+import Operations.*;
 import Table.Table;
 import Table.TableWithLabels;
 import java.io.FileNotFoundException;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KMEANSTest {
+
     private static Table dataTable;
     private static KMEANS kmeans;
     private static KMEANS failure;
@@ -25,8 +27,25 @@ class KMEANSTest {
     private static List<Double> c2;
     private static List<Double> c3;
 
+    private static List<Double> nums;
+    private static List<Double> nums2;
+
     @BeforeAll
     static void initAll() throws FileNotFoundException{
+        nums = new ArrayList<>();
+        nums.add(1.00);
+        nums.add(2.00);
+        nums.add(3.00);
+        nums.add(4.00);
+
+        nums2 = new ArrayList<>();
+
+        nums2.add(5.00);
+        nums2.add(6.00);
+        nums2.add(7.00);
+        nums2.add(8.00);
+
+
         // crear tabla de pruebas
         CSV reader = new CSV();
         dataTable = (Table) reader.readTableWithLabels("src/Files/irisTest.csv");
@@ -35,13 +54,31 @@ class KMEANSTest {
         c2 = Arrays.asList(4.7,3.2,1.3,0.2);
         c3 = Arrays.asList(7.0,3.2,4.7,1.4);
 
-        failure = new KMEANS(1000, 10, 1);
+        failure = new KMEANS(1000, 10, 1, new EuclideanDistance());
     }
 
     @BeforeEach
     void init(){
         // crear objetos
-        kmeans= new KMEANS(3,10,1);
+        kmeans= new KMEANS(3,10,1, new EuclideanDistance());
+    }
+
+    @Test
+    void closestCenterIndex(){
+
+        List<Double> point = new ArrayList<>();
+        point.add(1.00);
+        point.add(1.00);
+        point.add(1.00);
+        point.add(1.00);
+
+
+        List<List<Double>> centroids = new ArrayList<>();
+
+        centroids.add(nums);
+        centroids.add(nums2);
+
+        assertEquals(0, kmeans.closestCenterIndex(point, centroids));
     }
 
     @Test

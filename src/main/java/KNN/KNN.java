@@ -4,6 +4,8 @@ import java.lang.Math;
 
 
 import Interfaces.Algorithm;
+import Interfaces.Distance;
+import Interfaces.DistanceClient;
 import Table.RowWithLabel;
 import Table.TableWithLabels;
 
