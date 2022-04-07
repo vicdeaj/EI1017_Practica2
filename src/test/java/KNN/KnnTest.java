@@ -1,8 +1,7 @@
 package KNN;
 
-import CSV.CSV;
+import CSV.Csv;
 import Operations.EuclideanDistance;
-import Operations.ManhattanDistance;
 import Table.TableWithLabels;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -14,9 +13,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class KNNTest {
+class KnnTest {
 
-    private static CSV csv;
+    private static Csv csv;
 
     private static List<Double> sample1;
     private static List<Double> sample2;
@@ -26,14 +25,14 @@ class KNNTest {
     private static String label2;
     private static String label3;
 
-    private static KNN knn;
+    private static Knn knn;
     private static TableWithLabels dataTable;
 
 
     @BeforeAll
     static void initAll() throws FileNotFoundException{
 
-        csv = new CSV();
+        csv = new Csv();
 
         dataTable = csv.readTableWithLabels("src/Files/iris.csv");
 
@@ -54,7 +53,7 @@ class KNNTest {
     @Test
     @DisplayName("knn.estimate Test")
     void estimate() {
-        knn = new KNN(new EuclideanDistance());
+        knn = new Knn(new EuclideanDistance());
         knn.train(dataTable);
 
         assertEquals(label1, knn.estimate(sample1));

@@ -6,14 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CSVTest {
+class CsvTest {
 
-    private static CSV csv;
+    private static Csv csv;
 
     private static String pathNoLabel = "src/Files/tableNoLabel.csv";
     private static String pathLabel = "src/Files/tableLabels.csv";
@@ -34,7 +33,7 @@ class CSVTest {
     @BeforeAll
     static void initAll(){
 
-        csv = new CSV();
+        csv = new Csv();
 
         headNL.add("Unidades");
         headNL.add("Precio");

@@ -1,7 +1,6 @@
 package LinealRegression;
 
-import CSV.CSV;
-import LinealRegression.LinealRegression;
+import CSV.Csv;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ import Table.*;
 
 class LinealRegressionTest {
 
-    private static CSV csv;
+    private static Csv csv;
 
     private static LinealRegression lr;
 
@@ -22,7 +21,7 @@ class LinealRegressionTest {
     @BeforeAll
     static void initAll() {
 
-        csv = new CSV();
+        csv = new Csv();
 
         try{
             lr = new LinealRegression();

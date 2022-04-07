@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class CSV {
+public class Csv {
     public Table readTable(String path) throws FileNotFoundException{
         Table table = new Table();
         List<String> headers = new ArrayList<>();

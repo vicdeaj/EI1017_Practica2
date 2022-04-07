@@ -1,9 +1,9 @@
 package KMEANS;
 
-import CSV.CSV;
+import CSV.Csv;
 import Operations.*;
 import Table.Table;
-import Table.TableWithLabels;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class KMEANSTest {
+class KmeansTest {
 
     private static Table dataTable;
-    private static KMEANS kmeans;
-    private static KMEANS failure;
+    private static Kmeans kmeans;
+    private static Kmeans failure;
     private static List<List<Double>> centroids;
 
     private static List<Double> c1;
@@ -47,20 +47,20 @@ class KMEANSTest {
 
 
         // crear tabla de pruebas
-        CSV reader = new CSV();
+        Csv reader = new Csv();
         dataTable = (Table) reader.readTableWithLabels("src/Files/irisTest.csv");
 
         c1 = Arrays.asList(5.1,3.5,1.4,0.2);
         c2 = Arrays.asList(4.7,3.2,1.3,0.2);
         c3 = Arrays.asList(7.0,3.2,4.7,1.4);
 
-        failure = new KMEANS(1000, 10, 1, new EuclideanDistance());
+        failure = new Kmeans(1000, 10, 1, new EuclideanDistance());
     }
 
     @BeforeEach
     void init(){
         // crear objetos
-        kmeans= new KMEANS(3,10,1, new EuclideanDistance());
+        kmeans= new Kmeans(3,10,1, new EuclideanDistance());
     }
 
     @Test

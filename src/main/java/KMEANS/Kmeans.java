@@ -8,7 +8,7 @@ import Interfaces.Algorithm;
 import java.util.*;
 import Operations.*;
 
-public class KMEANS implements Algorithm<Table, List<Double>, String>, DistanceClient {
+public class Kmeans implements Algorithm<Table, List<Double>, String>, DistanceClient {
 
     private int numberClusters;
     private List<List<Double>> centroids;
@@ -16,7 +16,7 @@ public class KMEANS implements Algorithm<Table, List<Double>, String>, DistanceC
     private long seed;
     private Distance distanceType;
 
-    public KMEANS(int numberClusters, int iterations, long seed, Distance type){
+    public Kmeans(int numberClusters, int iterations, long seed, Distance type){
 
         this.numberClusters = numberClusters;
         this.iterations =  iterations;

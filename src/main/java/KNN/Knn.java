@@ -8,14 +8,13 @@ import Table.RowWithLabel;
 import Table.TableWithLabels;
 
 import java.util.List;
-import Operations.*;
 
-public class KNN implements Algorithm<TableWithLabels, List<Double>, String>, DistanceClient {
+public class Knn implements Algorithm<TableWithLabels, List<Double>, String>, DistanceClient {
 
     private TableWithLabels data;
     private Distance distanceType;
 
-    public KNN(Distance type){
+    public Knn(Distance type){
         data = new TableWithLabels();
         distanceType = type;
 
