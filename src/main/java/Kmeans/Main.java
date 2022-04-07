@@ -1,5 +1,5 @@
-package KMEANS;
-import CSV.Csv;
+package Kmeans;
+import Csv.Csv;
 import Operations.EuclideanDistance;
 import Table.*;
 

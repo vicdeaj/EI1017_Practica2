@@ -1,6 +1,6 @@
-package KMEANS;
+package Kmeans;
 
-import CSV.Csv;
+import Csv.Csv;
 import Operations.*;
 import Table.Table;
 

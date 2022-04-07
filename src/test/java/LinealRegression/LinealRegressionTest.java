@@ -1,6 +1,6 @@
 package LinealRegression;
 
-import CSV.Csv;
+import Csv.Csv;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package KMEANS;
+package Kmeans;
 import Interfaces.Distance;
 import Interfaces.DistanceClient;
 import Table.Table;

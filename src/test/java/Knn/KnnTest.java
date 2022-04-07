@@ -1,6 +1,6 @@
-package KNN;
+package Knn;
 
-import CSV.Csv;
+import Csv.Csv;
 import Operations.EuclideanDistance;
 import Table.TableWithLabels;
 import org.junit.jupiter.api.BeforeAll;

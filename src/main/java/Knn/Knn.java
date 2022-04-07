@@ -1,4 +1,4 @@
-package KNN;
+package Knn;
 
 
 import Interfaces.Algorithm;

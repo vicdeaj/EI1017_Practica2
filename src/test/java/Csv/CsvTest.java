@@ -1,4 +1,4 @@
-package CSV;
+package Csv;
 
 import Table.*;
 import org.junit.jupiter.api.BeforeAll;
