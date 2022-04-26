@@ -1,3 +1,7 @@
+import Controller.Controller;
+import Controller.ControllerInterface;
+import Model.ModelInterface;
+import Model.Model;
 import View.View;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,7 +15,12 @@ public class MainGUI extends Application {
     @Override
     public void start(Stage stage) {
 
+        //We create the references of the model and controller here to avoid trouble.
+        ControllerInterface controller = new Controller();
+        ModelInterface model = new Model();
         View view = new View(stage);
+        view.setController(controller);
+        view.setModel(model);
         view.createGUI();
     }
 }

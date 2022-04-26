@@ -1,8 +1,13 @@
 package Model;
 
-public interface Model {
+public class Model implements ModelInterface{
+    @Override
+    public void loadData() {
 
-    void loadData();
-    void estimateValues();
+    }
 
+    @Override
+    public void estimateValues() {
+
+    }
 }
