@@ -102,7 +102,7 @@ public class View {
     private void selectFile(){
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
-        System.out.println(file.getAbsolutePath());
+        controller.loadFile(file.getAbsolutePath());
 
     }
 }

@@ -19,8 +19,19 @@ public class MainGUI extends Application {
         ControllerInterface controller = new Controller();
         ModelInterface model = new Model();
         View view = new View(stage);
+
+
+        //Next we assign which objects communicate with which
+        controller.setView(view);
+        controller.setModel(model);
+
+        model.setView(view);
+        model.setController(controller);
+
         view.setController(controller);
         view.setModel(model);
+
+        //Start the GUI
         view.createGUI();
     }
 }
