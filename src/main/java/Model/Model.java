@@ -9,6 +9,7 @@ import View.View;
 import Csv.*;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public class Model implements ModelInterface{
 
@@ -27,6 +28,7 @@ public class Model implements ModelInterface{
         }
 
         knn.train(data);
+
     }
 
     @Override
@@ -42,5 +44,15 @@ public class Model implements ModelInterface{
     @Override
     public void setController(ControllerInterface controller) {
         this.controller = controller;
+    }
+
+    @Override
+    public List<String> getTableHeaders(){
+        return data.getNumberLabels();
+    }
+
+    public void updateAxii(){
+
+
     }
 }

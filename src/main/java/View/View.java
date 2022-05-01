@@ -1,8 +1,13 @@
 package View;
 
-import Controller.Controller;
 import Controller.ControllerInterface;
+import Interfaces.Distance;
+import Interfaces.DistanceType;
 import Model.ModelInterface;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,8 +19,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.File;
+import java.util.List;
 
 
 public class View {
@@ -61,16 +66,15 @@ public class View {
         ComboBox ySelector = new ComboBox();
 
         //Right side
+        ComboBox distanceSelector = new ComboBox();
         Button openFile = new Button("Open file");
-        openFile.setOnAction(e -> selectFile());
 
-        ComboBox distanceType = new ComboBox();
         TextField inputCoordinates = new TextField("Input values");
         TextField resultLabel = new TextField("Result");
         resultLabel.setDisable(true); //Does not allow the user to write in the label
         Button estimate = new Button("Estimate");
 
-        VBox rightSide = new VBox(openFile, distanceType,inputCoordinates,resultLabel,estimate);
+        VBox rightSide = new VBox(openFile, distanceSelector,inputCoordinates,resultLabel,estimate);
         rightSide.setSpacing(10);
         rightSide.setPadding(new Insets(10,10,10,10));
         rightSide.setAlignment(Pos.CENTER);
@@ -93,6 +97,36 @@ public class View {
         canvas.setRight(rightSide);
         canvas.setCenter(graph);
 
+                //ACTIONS//
+
+        //Clicking the open file button loads the data and starts the model
+        openFile.setOnAction(e ->{
+            selectFile();
+
+            List<String> headers = model.getTableHeaders();
+            ObservableList<String> axisData = FXCollections.observableArrayList(headers);
+            ObservableList<DistanceType> distanceTypes = FXCollections.observableArrayList(DistanceType.values());
+
+            xSelector.setItems(axisData);
+            ySelector.setItems(axisData);
+            distanceSelector.setItems(distanceTypes);
+
+            xSelector.getSelectionModel().selectFirst();
+            ySelector.getSelectionModel().selectFirst();
+            distanceSelector.getSelectionModel().selectFirst();
+
+            changeLabelContent(title, axisData.get(0), axisData.get(0));
+
+        });
+
+        //Uppon modifying the axis, the name and the shown values change
+        EventHandler<ActionEvent> axiiReload = e -> {
+            changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
+        };
+
+        xSelector.setOnAction(axiiReload);
+        ySelector.setOnAction(axiiReload);
+
         //We add it to the global tab pane
 
         tabPane.getTabs().add(new Tab("KNN", canvas));
@@ -105,4 +139,13 @@ public class View {
         controller.loadFile(file.getAbsolutePath());
 
     }
+
+    private void changeLabelContent(Label label,String e1, String e2){
+        label.setText(e1 + " VS " + e2);
+    }
+
+    private void axiiReload(){
+
+    }
+
 }

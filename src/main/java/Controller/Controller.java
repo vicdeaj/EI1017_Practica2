@@ -15,22 +15,17 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-    public void selectX() {
+    public void estimate() {
 
     }
 
     @Override
-    public void selectY() {
+  public void updateAxii(){
 
     }
 
     @Override
     public void selectDistanceType() {
-
-    }
-
-    @Override
-    public void estimate() {
 
     }
 

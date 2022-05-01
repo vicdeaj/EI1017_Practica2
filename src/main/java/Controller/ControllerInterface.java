@@ -5,8 +5,7 @@ import View.*;
 
 public interface ControllerInterface {
     void loadFile(String path);
-    void selectX();
-    void selectY();
+    void updateAxii();
     void selectDistanceType();
     void estimate();
     void setView(View view);

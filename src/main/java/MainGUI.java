@@ -2,6 +2,7 @@ import Controller.Controller;
 import Controller.ControllerInterface;
 import Model.ModelInterface;
 import Model.Model;
+
 import View.View;
 import javafx.application.Application;
 import javafx.stage.Stage;
