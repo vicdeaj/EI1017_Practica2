@@ -31,7 +31,7 @@ public class Model implements ModelInterface{
         kmeans.train(data);
 
         for (int i = 0; i < data.getSize(); i++) {
-            clusterMap.set(i,kmeans.estimate(data.getRowAt(i).getData()));
+            clusterMap.add(kmeans.estimate(data.getRowAt(i).getData()));
         }
     }
 
