@@ -32,23 +32,6 @@ public class Kmeans implements Algorithm<Table, List<Double>, String>, DistanceC
     @Override
     public void train(Table data) {
 
-        if (numberClusters > data.getSize()){
-            throw new IllegalStateException();
-        }
-
-        centroids = createRandomCentroids(data);
-
-        for (int i = 0; i < iterations; i++) {
-            List<Table> clusters = new ArrayList<>();
-            for (int j = 0; j < numberClusters; j++) {
-                Table c = new Table();
-                clusters.add(c);
-            }
-
-            classify(clusters, data); //Fills up the clusters with their corresponding rows according to its centroid
-            recalculateCentroids(clusters);//Recalculates the centroids on each group
-        }
-
     }
 
     @Override
