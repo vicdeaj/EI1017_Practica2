@@ -61,7 +61,8 @@ public class Model implements ModelInterface{
         return kmeans.getCentroids().size();
     }
 
-   public void getData(String labelX , String labelY){
+    @Override
+    public void getData(String labelX , String labelY){
         int iX;
         int iY;
 
@@ -74,5 +75,9 @@ public class Model implements ModelInterface{
        for (int i = 0; i < data.getSize(); i++) {
            view.fillSeries(xCoordenates.get(i), yCoordenates.get(i), clusterMap.get(i));
        }
+
+       view.insertSeries();
+
+
    }
 }

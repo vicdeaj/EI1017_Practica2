@@ -13,5 +13,6 @@ public interface ModelInterface {
     void setController(ControllerInterface controller);
     List<String> getTableHeaders();
     int getNumberOfClusters();
+    void getData(String labelX , String labelY);
 
 }

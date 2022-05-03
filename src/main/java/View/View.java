@@ -34,6 +34,9 @@ public class View {
     private  List<XYChart.Series> seriesList ;
     private ScatterChart graph;
 
+    ComboBox xSelector;
+    ComboBox ySelector;
+
     public View(final Stage stage){
         this.stage = stage;
     }
@@ -57,19 +60,16 @@ public class View {
 
     private void createKNNView(){
 
-
-
-
         BorderPane canvas = new BorderPane();
 
         //Top
         Label title = new Label("");
 
         //Left side
-        ComboBox xSelector = new ComboBox();
+        xSelector = new ComboBox();
 
         //Bottom side
-        ComboBox ySelector = new ComboBox();
+        ySelector = new ComboBox();
 
         //Right side
         ComboBox distanceSelector = new ComboBox();
@@ -86,8 +86,8 @@ public class View {
         rightSide.setAlignment(Pos.CENTER);
 
         //Center
-        final NumberAxis xAxis = new NumberAxis(0, 5.5, 0.5);
-        final NumberAxis yAxis = new NumberAxis(0, 5.5, 0.5);
+        final NumberAxis xAxis = new NumberAxis(0, 20, 0.5);
+        final NumberAxis yAxis = new NumberAxis(0, 20, 0.5);
         graph = new ScatterChart<Number,Number>(xAxis, yAxis);
 
         //Filling the ComboBox
@@ -107,6 +107,7 @@ public class View {
 
         //Clicking the open file button loads the data and starts the model
         openFile.setOnAction(e ->{
+
             selectFile();
 
             List<String> headers = model.getTableHeaders();
@@ -121,8 +122,7 @@ public class View {
             ySelector.getSelectionModel().selectFirst();
             distanceSelector.getSelectionModel().selectFirst();
 
-            createGraphSeries(model.getNumberOfClusters());
-
+            updateChart();
 
             //changeLabelContent(title, axisData.get(0), axisData.get(0));
 
@@ -131,7 +131,7 @@ public class View {
         //Uppon modifying the axis, the name and the shown values change
 
         EventHandler<ActionEvent> axiiReload = e -> {
-            //changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
+            changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
         };
         xSelector.setOnAction(axiiReload);
         ySelector.setOnAction(axiiReload);
@@ -172,14 +172,19 @@ public class View {
         }
     }
 
-    private void insertSeries(){
+    public void insertSeries(){
+        System.out.println(seriesList);
 
         graph.getData().addAll(seriesList);
     }
 
-    private void draw(){
+    private void updateChart(){ // update view with selected x and y
         createGraphSeries(model.getNumberOfClusters());
-        //model.getData
+
+        String lx =xSelector.getValue().toString();
+        String l2 =ySelector.getValue().toString();
+
+        model.getData(lx, l2);
 
     }
 
