@@ -1,6 +1,8 @@
 package Model;
 
 import Controller.ControllerInterface;
+import Interfaces.Distance;
+import Interfaces.DistanceType;
 import Kmeans.Kmeans;
 import Operations.EuclideanDistance;
 import Table.TableWithLabels;
@@ -18,7 +20,14 @@ public class Model implements ModelInterface{
     private Csv reader = new Csv();
     private TableWithLabels data;
     private List<String> clusterMap = new ArrayList<>();
-    private Kmeans kmeans = new Kmeans(3, 3, 5, new EuclideanDistance());
+    private Distance distanceType;
+    private Kmeans kmeans;
+
+    public Model(){
+        distanceType = new EuclideanDistance();
+        kmeans = new Kmeans(3, 3, 5, distanceType);
+
+    }
 
     @Override
     public void loadData(String path){
@@ -27,7 +36,10 @@ public class Model implements ModelInterface{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
 
+    @Override
+    public void train(){
         kmeans.train(data);
 
         for (int i = 0; i < data.getSize(); i++) {
@@ -81,4 +93,10 @@ public class Model implements ModelInterface{
 
 
    }
+
+   public void setDistanceType(Distance t){
+       distanceType = t;
+       kmeans = new Kmeans(3, 3, 5, distanceType);
+   }
+
 }

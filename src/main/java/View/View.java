@@ -2,6 +2,7 @@ package View;
 
 import Controller.ControllerInterface;
 
+import Interfaces.Distance;
 import Interfaces.DistanceType;
 import Model.ModelInterface;
 import javafx.collections.FXCollections;
@@ -129,7 +130,7 @@ public class View {
 
         });
 
-        //Uppon modifying the axis, the name and the shown values change
+        //Upon modifying the axis, the name and the shown values change
 
         EventHandler<ActionEvent> axiiReload = e -> {
             changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
@@ -137,6 +138,17 @@ public class View {
         };
         xSelector.setOnAction(axiiReload);
         ySelector.setOnAction(axiiReload);
+
+        // Upon modifying distance measurement, model is modified
+        EventHandler<ActionEvent> distanceReload = e -> {
+
+            controller.selectDistanceType((DistanceType)distanceSelector.getValue());
+            updateChart();
+        };
+
+        distanceSelector.setOnAction(distanceReload);
+
+
 
         //We add it to the global tab pane
 

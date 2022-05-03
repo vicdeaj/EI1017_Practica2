@@ -1,11 +1,13 @@
 package Controller;
 
+import Interfaces.DistanceType;
 import Model.*;
+import Interfaces.Distance;
 import View.*;
 
 public interface ControllerInterface {
     void loadFile(String path);
-    void selectDistanceType();
+    void selectDistanceType(DistanceType t);
     void estimate();
     void setView(View view);
     void setModel(ModelInterface model);
