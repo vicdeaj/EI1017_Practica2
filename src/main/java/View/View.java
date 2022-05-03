@@ -89,6 +89,7 @@ public class View {
         final NumberAxis xAxis = new NumberAxis(0, 10, 0.5);
         final NumberAxis yAxis = new NumberAxis(0, 10, 0.5);
         graph = new ScatterChart<Number,Number>(xAxis, yAxis);
+        graph.setAnimated(false);
 
         //Filling the ComboBox
         canvas.setTop(title);
