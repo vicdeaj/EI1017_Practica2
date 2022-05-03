@@ -1,7 +1,7 @@
 package View;
 
 import Controller.ControllerInterface;
-import Interfaces.Distance;
+
 import Interfaces.DistanceType;
 import Model.ModelInterface;
 import javafx.collections.FXCollections;
@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -20,6 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,6 +31,8 @@ public class View {
     private ControllerInterface controller;
     private ModelInterface model;
     private TabPane tabPane;
+    private  List<XYChart.Series> seriesList ;
+    private ScatterChart graph;
 
     public View(final Stage stage){
         this.stage = stage;
@@ -52,6 +56,8 @@ public class View {
     }
 
     private void createKNNView(){
+
+
 
 
         BorderPane canvas = new BorderPane();
@@ -82,7 +88,7 @@ public class View {
         //Center
         final NumberAxis xAxis = new NumberAxis(0, 5.5, 0.5);
         final NumberAxis yAxis = new NumberAxis(0, 5.5, 0.5);
-        ScatterChart graph = new ScatterChart<Number,Number>(xAxis, yAxis);
+        graph = new ScatterChart<Number,Number>(xAxis, yAxis);
 
         //Filling the ComboBox
         canvas.setTop(title);
@@ -115,21 +121,24 @@ public class View {
             ySelector.getSelectionModel().selectFirst();
             distanceSelector.getSelectionModel().selectFirst();
 
-            changeLabelContent(title, axisData.get(0), axisData.get(0));
+            createGraphSeries(model.getNumberOfClusters());
+
+
+            //changeLabelContent(title, axisData.get(0), axisData.get(0));
 
         });
 
         //Uppon modifying the axis, the name and the shown values change
-        EventHandler<ActionEvent> axiiReload = e -> {
-            changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
-        };
 
+        EventHandler<ActionEvent> axiiReload = e -> {
+            //changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
+        };
         xSelector.setOnAction(axiiReload);
         ySelector.setOnAction(axiiReload);
 
         //We add it to the global tab pane
 
-        tabPane.getTabs().add(new Tab("KNN", canvas));
+        tabPane.getTabs().add(new Tab("KMEANS", canvas));
 
     }
 
@@ -144,7 +153,33 @@ public class View {
         label.setText(e1 + " VS " + e2);
     }
 
-    private void axiiReload(){
+    private void createGraphSeries(int n){ //Desde la vi
+        seriesList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+
+            seriesList.add(new XYChart.Series());
+        }
+
+    }
+    public void fillSeries(Double x, Double y, String series){
+        String[] aux = series.split(" ");
+        int seriesNumber = Integer.parseInt(aux[1]);
+
+        for (int i = 0; i < seriesList.size(); i++) {
+            if (seriesNumber - 1 == i){
+                seriesList.get(i).getData().add(new XYChart.Data<Number, Number>(x,y));
+            }
+        }
+    }
+
+    private void insertSeries(){
+
+        graph.getData().addAll(seriesList);
+    }
+
+    private void draw(){
+        createGraphSeries(model.getNumberOfClusters());
+        //model.getData
 
     }
 

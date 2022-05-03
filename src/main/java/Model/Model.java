@@ -1,14 +1,14 @@
 package Model;
 
 import Controller.ControllerInterface;
-import Interfaces.DistanceType;
-import Knn.Knn;
+import Kmeans.Kmeans;
 import Operations.EuclideanDistance;
 import Table.TableWithLabels;
 import View.View;
 import Csv.*;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Model implements ModelInterface{
@@ -17,7 +17,8 @@ public class Model implements ModelInterface{
     private ControllerInterface controller;
     private Csv reader = new Csv();
     private TableWithLabels data;
-    private Knn knn = new Knn(new EuclideanDistance());
+    private List<String> clusterMap = new ArrayList<>();
+    private Kmeans kmeans = new Kmeans(3, 3, 5, new EuclideanDistance());
 
     @Override
     public void loadData(String path){
@@ -27,8 +28,11 @@ public class Model implements ModelInterface{
             e.printStackTrace();
         }
 
-        knn.train(data);
+        kmeans.train(data);
 
+        for (int i = 0; i < data.getSize(); i++) {
+            clusterMap.set(i,kmeans.estimate(data.getRowAt(i).getData()));
+        }
     }
 
     @Override
@@ -51,8 +55,24 @@ public class Model implements ModelInterface{
         return data.getNumberLabels();
     }
 
-    public void updateAxii(){
+    @Override
+    public int getNumberOfClusters(){
 
-
+        return kmeans.getCentroids().size();
     }
+
+   public void getData(String labelX , String labelY){
+        int iX;
+        int iY;
+
+        iX = data.getNumberLabels().indexOf(labelX);
+        iY = data.getNumberLabels().indexOf(labelY);
+
+        List<Double> xCoordenates = data.getColumnAt(iX);
+        List<Double> yCoordenates = data.getColumnAt(iY);
+
+       for (int i = 0; i < data.getSize(); i++) {
+           view.fillSeries(xCoordenates.get(i), yCoordenates.get(i), clusterMap.get(i));
+       }
+   }
 }

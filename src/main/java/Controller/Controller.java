@@ -20,11 +20,6 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-  public void updateAxii(){
-
-    }
-
-    @Override
     public void selectDistanceType() {
 
     }
