@@ -66,6 +66,7 @@ public class Model implements ModelInterface{
         int iX;
         int iY;
 
+
         iX = data.getNumberLabels().indexOf(labelX);
         iY = data.getNumberLabels().indexOf(labelY);
 

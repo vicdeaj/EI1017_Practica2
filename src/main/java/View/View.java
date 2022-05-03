@@ -86,8 +86,8 @@ public class View {
         rightSide.setAlignment(Pos.CENTER);
 
         //Center
-        final NumberAxis xAxis = new NumberAxis(0, 20, 0.5);
-        final NumberAxis yAxis = new NumberAxis(0, 20, 0.5);
+        final NumberAxis xAxis = new NumberAxis(0, 10, 0.5);
+        final NumberAxis yAxis = new NumberAxis(0, 10, 0.5);
         graph = new ScatterChart<Number,Number>(xAxis, yAxis);
 
         //Filling the ComboBox
@@ -132,6 +132,7 @@ public class View {
 
         EventHandler<ActionEvent> axiiReload = e -> {
             changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
+            updateChart();
         };
         xSelector.setOnAction(axiiReload);
         ySelector.setOnAction(axiiReload);
@@ -154,6 +155,8 @@ public class View {
     }
 
     private void createGraphSeries(int n){ //Desde la vi
+        graph.getData().clear();
+
         seriesList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
 
@@ -164,16 +167,18 @@ public class View {
     public void fillSeries(Double x, Double y, String series){
         String[] aux = series.split(" ");
         int seriesNumber = Integer.parseInt(aux[1]);
+        //System.out.println(seriesNumber);
+        seriesList.get(seriesNumber).getData().add(new XYChart.Data<Number, Number>(x,y));
 
-        for (int i = 0; i < seriesList.size(); i++) {
+        /*for (int i = 0; i < seriesList.size(); i++) {
             if (seriesNumber - 1 == i){
                 seriesList.get(i).getData().add(new XYChart.Data<Number, Number>(x,y));
             }
-        }
+        }*/
     }
 
     public void insertSeries(){
-        System.out.println(seriesList);
+        //System.out.println(seriesList.get(2).getData());
 
         graph.getData().addAll(seriesList);
     }
