@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -34,6 +35,9 @@ public class View {
     private TabPane tabPane;
     private  List<XYChart.Series> seriesList ;
     private ScatterChart graph;
+    private TextField inputCoordinates;
+    private TextField resultLabel;
+    private XYChart.Series estimation = new XYChart.Series();
 
     ComboBox xSelector;
     ComboBox ySelector;
@@ -76,8 +80,8 @@ public class View {
         ComboBox distanceSelector = new ComboBox();
         Button openFile = new Button("Open file");
 
-        TextField inputCoordinates = new TextField("Input values");
-        TextField resultLabel = new TextField("Result");
+        inputCoordinates = new TextField("Input values");
+        resultLabel = new TextField("Result");
         resultLabel.setDisable(true); //Does not allow the user to write in the label
         Button estimate = new Button("Estimate");
 
@@ -91,6 +95,7 @@ public class View {
         final NumberAxis yAxis = new NumberAxis(0, 10, 0.5);
         graph = new ScatterChart<Number,Number>(xAxis, yAxis);
         graph.setAnimated(false);
+        graph.setLegendVisible(false);
 
         //Filling the ComboBox
         canvas.setTop(title);
@@ -146,7 +151,14 @@ public class View {
             updateChart();
         };
 
+        //Upon clicking "estimate", call for an estimation and represent it in the chart
+
+        EventHandler<ActionEvent> estimateValue = e-> {
+            estimate();
+        };
+
         distanceSelector.setOnAction(distanceReload);
+        estimate.setOnAction(estimateValue);
 
 
 
@@ -176,6 +188,8 @@ public class View {
             seriesList.add(new XYChart.Series());
         }
 
+        seriesList.add(estimation); //Add the estimation to the list every time.
+
     }
     public void fillSeries(Double x, Double y, String series){
         String[] aux = series.split(" ");
@@ -194,6 +208,10 @@ public class View {
         //System.out.println(seriesList.get(2).getData());
 
         graph.getData().addAll(seriesList);
+
+        if (!inputCoordinates.getText().equals("Input values")){
+            estimate();
+        }
     }
 
     private void updateChart(){ // update view with selected x and y
@@ -203,6 +221,27 @@ public class View {
         String l2 =ySelector.getValue().toString();
 
         model.getData(lx, l2);
+
+    }
+
+    private void estimate(){
+
+        List<Double> coordinates = new ArrayList<>();
+
+        String[] stringCoordinates = inputCoordinates.getText().split(",");
+
+        if (stringCoordinates.length != model.getTableHeaders().size()){
+            throw new IllegalStateException();
+        }
+
+        for(String e : stringCoordinates){
+            coordinates.add(Double.parseDouble(e));
+        }
+
+        resultLabel.setText(model.estimate(coordinates));
+
+        estimation.getData().clear(); //Clear the previous estimation
+        estimation.getData().add(new XYChart.Data(coordinates.get(model.getiX()), coordinates.get(model.getiY()))); //Get the new one
 
     }
 

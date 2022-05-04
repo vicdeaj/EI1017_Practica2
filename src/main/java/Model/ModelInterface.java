@@ -10,14 +10,17 @@ public interface ModelInterface {
 
     void loadData(String path);
     void train();
+    String estimate(List<Double> coordinates);
 
-    void estimateValues();
     void setView(View view);
     void setController(ControllerInterface controller);
     List<String> getTableHeaders();
     int getNumberOfClusters();
     void getData(String labelX , String labelY);
 
-    public void setDistanceType(Distance t);
+    int getiX();
+    int getiY();
+
+    void setDistanceType(Distance t);
 
 }

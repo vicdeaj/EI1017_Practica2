@@ -2,7 +2,6 @@ package Model;
 
 import Controller.ControllerInterface;
 import Interfaces.Distance;
-import Interfaces.DistanceType;
 import Kmeans.Kmeans;
 import Operations.EuclideanDistance;
 import Table.TableWithLabels;
@@ -22,6 +21,8 @@ public class Model implements ModelInterface{
     private List<String> clusterMap = new ArrayList<>();
     private Distance distanceType;
     private Kmeans kmeans;
+    private int iX;
+    private int iY;
 
     public Model(){
         distanceType = new EuclideanDistance();
@@ -48,8 +49,8 @@ public class Model implements ModelInterface{
     }
 
     @Override
-    public void estimateValues() {
-
+    public String estimate(List<Double> coordinates) {
+        return kmeans.estimate(coordinates);
     }
 
     @Override
@@ -75,9 +76,6 @@ public class Model implements ModelInterface{
 
     @Override
     public void getData(String labelX , String labelY){
-        int iX;
-        int iY;
-
 
         iX = data.getNumberLabels().indexOf(labelX);
         iY = data.getNumberLabels().indexOf(labelY);
@@ -97,6 +95,15 @@ public class Model implements ModelInterface{
    public void setDistanceType(Distance t){
        distanceType = t;
        kmeans = new Kmeans(3, 3, 5, distanceType);
+   }
+
+   @Override
+   public int getiX(){
+        return iX;
+   }
+   @Override
+   public int getiY(){
+        return iY;
    }
 
 }
