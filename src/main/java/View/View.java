@@ -130,6 +130,9 @@ public class View {
             ySelector.getSelectionModel().selectFirst();
             distanceSelector.getSelectionModel().selectFirst();
 
+           //
+            //System.out.println("file opened");
+
             updateChart();
 
             //changeLabelContent(title, axisData.get(0), axisData.get(0));
@@ -140,6 +143,8 @@ public class View {
 
         EventHandler<ActionEvent> axiiReload = e -> {
             changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
+            //System.out.println("axii reloaded");
+
             updateChart();
         };
         xSelector.setOnAction(axiiReload);
@@ -149,6 +154,7 @@ public class View {
         EventHandler<ActionEvent> distanceReload = e -> {
 
             controller.selectDistanceType((DistanceType)distanceSelector.getValue());
+          //  System.out.println("distance reloaded");
             updateChart();
         };
 
