@@ -3,7 +3,9 @@ package Model;
 import Controller.ControllerInterface;
 import Interfaces.Distance;
 import Kmeans.Kmeans;
+import Knn.Knn;
 import Operations.EuclideanDistance;
+import Table.RowWithLabel;
 import Table.TableWithLabels;
 import View.View;
 import Csv.*;
@@ -20,13 +22,13 @@ public class Model implements ModelInterface{
     private TableWithLabels data;
     private List<String> clusterMap = new ArrayList<>();
     private Distance distanceType;
-    private Kmeans kmeans;
+    private Knn knn;
     private int iX;
     private int iY;
 
     public Model(){
         distanceType = new EuclideanDistance();
-        kmeans = new Kmeans(3, 3, 5, distanceType);
+        knn = new Knn(distanceType);
 
     }
 
@@ -41,16 +43,12 @@ public class Model implements ModelInterface{
 
     @Override
     public void train(){
-        kmeans.train(data);
-
-        for (int i = 0; i < data.getSize(); i++) {
-            clusterMap.add(kmeans.estimate(data.getRowAt(i).getData()));
-        }
+        knn.train(data);
     }
 
     @Override
     public String estimate(List<Double> coordinates) {
-        return kmeans.estimate(coordinates);
+        return knn.estimate(coordinates);
     }
 
     @Override
@@ -69,22 +67,15 @@ public class Model implements ModelInterface{
     }
 
     @Override
-    public int getNumberOfClusters(){
-
-        return kmeans.getCentroids().size();
-    }
-
-    @Override
     public void getData(String labelX , String labelY){
 
         iX = data.getNumberLabels().indexOf(labelX);
         iY = data.getNumberLabels().indexOf(labelY);
 
-        List<Double> xCoordenates = data.getColumnAt(iX);
-        List<Double> yCoordenates = data.getColumnAt(iY);
 
        for (int i = 0; i < data.getSize(); i++) {
-           view.fillSeries(xCoordenates.get(i), yCoordenates.get(i), clusterMap.get(i));
+           RowWithLabel row = data.getRowAt(i);
+           view.fillSeries(row.getElement(iX), row.getElement(iY), row.getLabel());
        }
 
        view.insertSeries();
@@ -94,7 +85,7 @@ public class Model implements ModelInterface{
 
    public void setDistanceType(Distance t){
        distanceType = t;
-       kmeans = new Kmeans(3, 3, 5, distanceType);
+       knn = new Knn(distanceType);
    }
 
    @Override

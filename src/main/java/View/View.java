@@ -33,11 +33,12 @@ public class View {
     private ControllerInterface controller;
     private ModelInterface model;
     private TabPane tabPane;
-    private  List<XYChart.Series> seriesList ;
+    private  List<XYChart.Series> seriesList = new ArrayList<>();
     private ScatterChart graph;
     private TextField inputCoordinates;
     private TextField resultLabel;
     private XYChart.Series estimation = new XYChart.Series();
+    private boolean alreadyEstimated = false;
 
     ComboBox xSelector;
     ComboBox ySelector;
@@ -164,7 +165,7 @@ public class View {
 
         //We add it to the global tab pane
 
-        tabPane.getTabs().add(new Tab("KMEANS", canvas));
+        tabPane.getTabs().add(new Tab("KNN", canvas));
 
     }
 
@@ -188,60 +189,71 @@ public class View {
             seriesList.add(new XYChart.Series());
         }
 
-        seriesList.add(estimation); //Add the estimation to the list every time.
+         //Add the estimation to the list every time.
 
     }
     public void fillSeries(Double x, Double y, String series){
-        String[] aux = series.split(" ");
-        int seriesNumber = Integer.parseInt(aux[1]);
-        //System.out.println(seriesNumber);
-        seriesList.get(seriesNumber).getData().add(new XYChart.Data<Number, Number>(x,y));
-
-        /*for (int i = 0; i < seriesList.size(); i++) {
-            if (seriesNumber - 1 == i){
-                seriesList.get(i).getData().add(new XYChart.Data<Number, Number>(x,y));
+        boolean inSeries = false;
+       // System.out.println(seriesList);
+        for (XYChart.Series s : seriesList){
+            if (s.getName().equals(series)){
+                // son iguales
+                inSeries = true;
+                s.getData().add(new XYChart.Data<Number,Number>(x, y));
+                break;
             }
-        }*/
+        }
+
+        if (!inSeries){
+            XYChart.Series s = new XYChart.Series();
+            s.setName(series);
+            s.getData().add(new XYChart.Data<Number,Number>(x,y));
+            seriesList.add(s);
+        }
     }
 
     public void insertSeries(){
-        //System.out.println(seriesList.get(2).getData());
+        //System.out.println(graph.getData());
 
-        graph.getData().addAll(seriesList);
+        graph.getData().clear();
+        seriesList.add(estimation); //Add the estimation series before completing the graph
+        graph.getData().addAll(seriesList); //Add everything to the graph
 
-        if (!inputCoordinates.getText().equals("Input values")){
+        if (alreadyEstimated){
             estimate();
         }
     }
 
     private void updateChart(){ // update view with selected x and y
-        createGraphSeries(model.getNumberOfClusters());
 
         String lx =xSelector.getValue().toString();
-        String l2 =ySelector.getValue().toString();
+        String ly =ySelector.getValue().toString();
 
-        model.getData(lx, l2);
+        seriesList.clear();
+
+        model.getData(lx, ly);
 
     }
 
     private void estimate(){
 
         List<Double> coordinates = new ArrayList<>();
-
         String[] stringCoordinates = inputCoordinates.getText().split(",");
 
-        if (stringCoordinates.length != model.getTableHeaders().size()){
-            throw new IllegalStateException();
+        if (stringCoordinates.length == model.getTableHeaders().size()){ //If the length of the coordenates matches the required size, estimate. Else, do nothing
+            for(String e : stringCoordinates){
+                coordinates.add(Double.parseDouble(e));
+            }
+
+            resultLabel.setText(model.estimate(coordinates));
+
+            estimation.getData().clear(); //Clear the previous estimation
+            estimation.getData().add(new XYChart.Data(coordinates.get(model.getiX()), coordinates.get(model.getiY()))); //Get the new one
+            alreadyEstimated = true;//Acknowledge that an estimation has been done
+
         }
 
-        for(String e : stringCoordinates){
-            coordinates.add(Double.parseDouble(e));
-        }
 
-        resultLabel.setText(model.estimate(coordinates));
-
-        estimation.getData().clear(); //Clear the previous estimation
-        estimation.getData().add(new XYChart.Data(coordinates.get(model.getiX()), coordinates.get(model.getiY()))); //Get the new one
 
     }
 
