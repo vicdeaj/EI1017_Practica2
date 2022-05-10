@@ -2,7 +2,6 @@ package View;
 
 import Controller.ControllerInterface;
 
-import Interfaces.Distance;
 import Interfaces.DistanceType;
 import Model.ModelInterface;
 import javafx.collections.FXCollections;
@@ -23,22 +22,21 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
-public class View {
+public class View implements ViewInterface{
 
     private final Stage stage;
     private ControllerInterface controller;
     private ModelInterface model;
     private TabPane tabPane;
-    private  List<XYChart.Series> seriesList = new ArrayList<>();
+    private  List<XYChart.Series> seriesList = new ArrayList<>(); //List of all the plot series
     private ScatterChart graph;
-    private TextField inputCoordinates;
-    private TextField resultLabel;
-    private XYChart.Series estimation = new XYChart.Series();
-    private boolean alreadyEstimated = false;
+    private TextField inputCoordinates; //Coordinates for estimation go here
+    private TextField resultLabel; //Result of previous estimation shows here
+    private XYChart.Series estimation = new XYChart.Series(); //Series reserved for the estimation point
+    private boolean alreadyEstimated = false; //Checks wether or not there's been an estimation
 
     ComboBox xSelector;
     ComboBox ySelector;
@@ -56,7 +54,7 @@ public class View {
     public void createGUI(){
 
         tabPane = new TabPane();
-        createKNNView();
+        createView();
 
 
         Scene scene = new Scene(tabPane);
@@ -64,7 +62,7 @@ public class View {
         stage.show();
     }
 
-    private void createKNNView(){
+    private void createView(){
 
         BorderPane canvas = new BorderPane();
 
@@ -113,54 +111,47 @@ public class View {
 
                 //ACTIONS//
 
-        //Clicking the open file button loads the data and starts the model
-        openFile.setOnAction(e ->{
 
-            selectFile();
+        openFile.setOnAction(e ->{ //Clicking the open file button loads the data and starts the model
 
-            List<String> headers = model.getTableHeaders();
-            ObservableList<String> axisData = FXCollections.observableArrayList(headers);
-            ObservableList<DistanceType> distanceTypes = FXCollections.observableArrayList(DistanceType.values());
+            if (selectFile()){
 
-            xSelector.setItems(axisData);
-            ySelector.setItems(axisData);
-            distanceSelector.setItems(distanceTypes);
+                List<String> headers = model.getTableHeaders();
+                ObservableList<String> axisData = FXCollections.observableArrayList(headers);
+                ObservableList<DistanceType> distanceTypes = FXCollections.observableArrayList(DistanceType.values());
 
-            xSelector.getSelectionModel().selectFirst();
-            ySelector.getSelectionModel().selectFirst();
-            distanceSelector.getSelectionModel().selectFirst();
+                xSelector.setItems(axisData);
+                ySelector.setItems(axisData);
+                distanceSelector.setItems(distanceTypes);
 
-           //
-            //System.out.println("file opened");
+                xSelector.getSelectionModel().selectFirst();
+                ySelector.getSelectionModel().selectFirst();
+                distanceSelector.getSelectionModel().selectFirst();
 
-            updateChart();
-
-            //changeLabelContent(title, axisData.get(0), axisData.get(0));
-
+                updateChart();
+            }
         });
 
-        //Upon modifying the axis, the name and the shown values change
 
-        EventHandler<ActionEvent> axiiReload = e -> {
+
+        EventHandler<ActionEvent> axiiReload = e -> { //Upon modifying the axis, the name and the shown values change
             changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
-            //System.out.println("axii reloaded");
 
             updateChart();
         };
         xSelector.setOnAction(axiiReload);
         ySelector.setOnAction(axiiReload);
 
-        // Upon modifying distance measurement, model is modified
-        EventHandler<ActionEvent> distanceReload = e -> {
+
+        EventHandler<ActionEvent> distanceReload = e -> { // Upon modifying distance measurement, model is modified
 
             controller.selectDistanceType((DistanceType)distanceSelector.getValue());
-          //  System.out.println("distance reloaded");
             updateChart();
         };
 
-        //Upon clicking "estimate", call for an estimation and represent it in the chart
 
-        EventHandler<ActionEvent> estimateValue = e-> {
+
+        EventHandler<ActionEvent> estimateValue = e-> { //Upon clicking "estimate", call for an estimation and represent it in the chart
             estimate();
         };
 
@@ -175,32 +166,26 @@ public class View {
 
     }
 
-    private void selectFile(){
+    private boolean selectFile(){ //Starts the file selection process and warns the controller to start the program
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
-        controller.loadFile(file.getAbsolutePath());
 
+        if (file != null){
+
+            controller.loadFile(file.getAbsolutePath());
+            return true;
+        }
+
+        return false;
     }
 
-    private void changeLabelContent(Label label,String e1, String e2){
+    private void changeLabelContent(Label label,String e1, String e2){ //Changes the tittle of the application
         label.setText(e1 + " VS " + e2);
     }
 
-    private void createGraphSeries(int n){ //Desde la vi
-        graph.getData().clear();
 
-        seriesList = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-
-            seriesList.add(new XYChart.Series());
-        }
-
-         //Add the estimation to the list every time.
-
-    }
-    public void fillSeries(Double x, Double y, String series){
+    public void fillSeries(Double x, Double y, String series){//Fills up the chart series with their corresponding points
         boolean inSeries = false;
-       // System.out.println(seriesList);
         for (XYChart.Series s : seriesList){
             if (s.getName().equals(series)){
                 // son iguales
@@ -218,6 +203,7 @@ public class View {
         }
     }
 
+    @Override
     public void insertSeries(){
         //System.out.println(graph.getData());
 
@@ -258,8 +244,6 @@ public class View {
             alreadyEstimated = true;//Acknowledge that an estimation has been done
 
         }
-
-
 
     }
 

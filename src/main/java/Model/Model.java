@@ -20,7 +20,6 @@ public class Model implements ModelInterface{
     private ControllerInterface controller;
     private Csv reader = new Csv();
     private TableWithLabels data;
-    private List<String> clusterMap = new ArrayList<>();
     private Distance distanceType;
     private Knn knn;
     private int iX;
@@ -62,12 +61,12 @@ public class Model implements ModelInterface{
     }
 
     @Override
-    public List<String> getTableHeaders(){
+    public List<String> getTableHeaders(){//Returns the headers corresponding to the data
         return data.getNumberLabels();
     }
 
     @Override
-    public void getData(String labelX , String labelY){
+    public void getData(String labelX , String labelY){ //Obtains points and delivers them to the view to fill the chart
 
         iX = data.getNumberLabels().indexOf(labelX);
         iY = data.getNumberLabels().indexOf(labelY);

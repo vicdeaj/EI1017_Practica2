@@ -22,11 +22,6 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-    public void estimate() {
-
-    }
-
-    @Override
     public void selectDistanceType(DistanceType t) {
 
         switch(t){
