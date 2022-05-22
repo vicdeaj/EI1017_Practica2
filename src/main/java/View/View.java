@@ -37,6 +37,7 @@ public class View implements ViewInterface{
     private TextField resultLabel; //Result of previous estimation shows here
     private XYChart.Series estimation = new XYChart.Series(); //Series reserved for the estimation point
     private boolean alreadyEstimated = false; //Checks wether or not there's been an estimation
+    private boolean openedFile = false;
 
     ComboBox xSelector;
     ComboBox ySelector;
@@ -94,7 +95,7 @@ public class View implements ViewInterface{
         final NumberAxis yAxis = new NumberAxis(0, 10, 0.5);
         graph = new ScatterChart<Number,Number>(xAxis, yAxis);
         graph.setAnimated(false);
-        graph.setLegendVisible(false);
+        graph.setLegendVisible(true);
 
         //Filling the ComboBox
         canvas.setTop(title);
@@ -128,6 +129,15 @@ public class View implements ViewInterface{
                 ySelector.getSelectionModel().selectFirst();
                 distanceSelector.getSelectionModel().selectFirst();
 
+                openedFile = true;
+
+                if (alreadyEstimated){
+                    resultLabel.setText("Result");
+                    inputCoordinates.setText("Input Values");
+                    estimation.getData().clear();
+                    alreadyEstimated = false;
+                }
+
                 updateChart();
             }
         });
@@ -152,7 +162,10 @@ public class View implements ViewInterface{
 
 
         EventHandler<ActionEvent> estimateValue = e-> { //Upon clicking "estimate", call for an estimation and represent it in the chart
-            estimate();
+
+            if (openedFile) {
+                estimate();
+            }
         };
 
         distanceSelector.setOnAction(distanceReload);
@@ -171,9 +184,13 @@ public class View implements ViewInterface{
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null){
+            String path = file.getAbsolutePath();
+            String extension = path.substring(path.lastIndexOf('.'));
 
-            controller.loadFile(file.getAbsolutePath());
-            return true;
+            if (extension.equals(".csv")){
+                controller.loadFile(path);
+                return true;
+            }
         }
 
         return false;
