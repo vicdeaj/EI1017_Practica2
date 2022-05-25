@@ -145,9 +145,10 @@ public class View implements ViewInterface{
 
 
         EventHandler<ActionEvent> axiiReload = e -> { //Upon modifying the axis, the name and the shown values change
-            changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
-
-            updateChart();
+            if (xSelector.getValue() != null && ySelector.getValue() != null){
+                changeLabelContent(title, xSelector.getValue().toString(), ySelector.getValue().toString());
+                updateChart();
+            }
         };
         xSelector.setOnAction(axiiReload);
         ySelector.setOnAction(axiiReload);
