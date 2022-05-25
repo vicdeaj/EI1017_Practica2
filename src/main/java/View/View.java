@@ -261,6 +261,8 @@ public class View implements ViewInterface{
             estimation.getData().add(new XYChart.Data(coordinates.get(model.getiX()), coordinates.get(model.getiY()))); //Get the new one
             alreadyEstimated = true;//Acknowledge that an estimation has been done
 
+        } else {
+            resultLabel.setText("Incorrect args");
         }
 
     }
